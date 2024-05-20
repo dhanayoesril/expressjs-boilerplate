@@ -1,11 +1,10 @@
-const { mockResponseListPlayer } = require('./mockResponse');
 const express = require('express');
+const routes = require('./routes')
 
 const app = express();
 const PORT = 3001;
 
 app.listen(PORT, () => console.log(`Running express server on port ${PORT}!`));
 
-app.get('/players', (req, res) => {
-  res.send(mockResponseListPlayer);
-});
+app.use('/', routes);
+

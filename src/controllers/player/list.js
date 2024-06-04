@@ -1,12 +1,21 @@
+const ResponseUtils = require('../../utils/response');
 const PlayerService = require('../../services/player');
 
 const list = async (req, res) => {
   const { ctx, params } = req;
-  const result = await PlayerService.getListPlayer(ctx, params);
-  if (!result) {
-    res.send('List player not found!');
+  try {
+    const result = await PlayerService.getListPlayer(ctx, params);
+    if (!result) {
+      ResponseUtils.success({ res, message: result?.message });
+    }
+    return ResponseUtils.success({
+      res,
+      message: result?.message,
+      data: result?.data
+    });
+  } catch (err) {
+    next(err);
   }
-  return res.send(result);
 };
 
 module.exports = {

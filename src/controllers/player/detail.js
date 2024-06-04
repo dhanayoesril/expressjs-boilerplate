@@ -1,22 +1,32 @@
+const ResponseUtils = require('../../utils/response');
 const PlayerService = require('../../services/player');
 const DetailPlayerValidation = require('../../validations/player/detailPlayer');
 
-const detail = async (req, res) => {
+const detail = async (req, res, next) => {
   const { ctx, params } = req;
 
-  const result = await PlayerService.getDetailPlayer(ctx, params);
-  let response = {
-    success: true,
-    message: 'Success Get Detail Player',
-    data: result
-  };
-  if (!result) {
-    response.success = false;
-    response.message = 'Failed Get Detail PLayed';
-    response.data = null;
-    res.send(response);
+  try {
+    let sanitizedParam;
+    try {
+      sanitizedParam = await DetailPlayerValidation().validateAsync({
+        ...params
+      });
+    } catch (err) {
+      ResponseUtils.badRequest({ res, err });
+    }
+
+    const result = await PlayerService.getDetailPlayer(ctx, params);
+    if (!result) {
+      ResponseUtils.success({ res, message: result?.message });
+    }
+    return ResponseUtils.success({
+      res,
+      message: result?.message,
+      data: result?.data
+    });
+  } catch (err) {
+    next(err);
   }
-  return res.send(response);
 };
 
 module.exports = {

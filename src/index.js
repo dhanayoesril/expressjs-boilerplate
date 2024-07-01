@@ -7,6 +7,8 @@ const PORT = 3001;
 
 app.listen(PORT, () => console.log(`Running express server on port ${PORT}!`));
 
+app.use(express.json());
+
 app.use('/', routes);
 
 app.use(function (req, res, _next) {

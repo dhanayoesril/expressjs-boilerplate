@@ -1,21 +1,10 @@
 const ResponseUtils = require('../../utils/response');
 const PlayerService = require('../../services/player');
-const DetailPlayerValidation = require('../../validations/player/detailPlayer');
 
-const detail = async (req, res, next) => {
+const listPlayer = async (req, res) => {
   const { ctx, params } = req;
-
   try {
-    let sanitizedParam;
-    try {
-      sanitizedParam = await DetailPlayerValidation().validateAsync({
-        ...params
-      });
-    } catch (err) {
-      ResponseUtils.badRequest({ res, err });
-    }
-
-    const result = await PlayerService.getDetailPlayer(ctx, params);
+    const result = await PlayerService.getListPlayer(ctx, params);
     if (!result) {
       ResponseUtils.success({ res, message: result?.message });
     }
@@ -30,5 +19,5 @@ const detail = async (req, res, next) => {
 };
 
 module.exports = {
-  detail
+  listPlayer
 };

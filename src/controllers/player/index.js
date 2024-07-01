@@ -1,7 +1,13 @@
-const { list } = require('./list');
-const { detail } = require('./detail');
+const { listPlayer } = require('./listPlayer');
+const { detailPlayer } = require('./detailPlayer');
+const { createPlayer } = require('./createPlayer');
+const { updatePlayer } = require('./updatePlayer');
+const { deletePlayer } = require('./deletePlayer');
 
 module.exports = {
-  list,
-  detail
+  listPlayer,
+  detailPlayer,
+  createPlayer,
+  updatePlayer,
+  deletePlayer
 };

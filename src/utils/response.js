@@ -22,16 +22,32 @@ const sendResponse = (res, code, message, data, error) => {
   res.json(result);
 };
 
+const success = ({ res, message, data }) => {
+  sendResponse(res, ResponseStatusCode.SUCCESS, message, data);
+};
+
+const notFound = ({ res, message, err }) => {
+  const msg = message || err.message;
+  sendResponse(res, ResponseStatusCode.BAD_REQUEST, msg, null, err);
+};
+
+const badRequest = ({ res, message, err }) => {
+  const msg = message || err.message;
+  sendResponse(res, ResponseStatusCode.BAD_REQUEST, msg, null, err);
+};
+
+const formatClientErrorResponse = ({ res, result, err }) => {
+  const message = result?.message;
+  if (result?.code === ResponseStatusCode.BAD_REQUEST) {
+    if (!err) err = new Error(message);
+    badRequest({ res, message, err });
+  }
+};
+
 module.exports = {
   formatServiceReturn,
-  success: ({ res, message, data }) => {
-    sendResponse(res, ResponseStatusCode.SUCCESS, message, data);
-  },
-  notFound: ({ res, message, err }) => {
-    sendResponse(res, ResponseStatusCode.NOT_FOUND, message, null, err);
-  },
-  badRequest: ({ res, message, err }) => {
-    const msg = err.message;
-    sendResponse(res, ResponseStatusCode.BAD_REQUEST, msg, null, err);
-  }
+  success,
+  notFound,
+  badRequest,
+  formatClientErrorResponse
 };

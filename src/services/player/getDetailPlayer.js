@@ -1,12 +1,10 @@
-const { mockResponseListPlayer } = require('../../mockResponse');
+const mockResponse = require('../../mockResponse/response.json');
 const ResponseStatusCode = require('../../constant/responseStatusCode');
 const ResponseUtils = require('../../utils/response');
 
 const getDetailPlayer = (ctx, params) => {
   const { id } = params;
-  const detailPlayer = mockResponseListPlayer.find(
-    (dt) => dt.id === Number(id)
-  );
+  const detailPlayer = mockResponse.find((dt) => dt.id === Number(id));
   if (!detailPlayer?.id) {
     return ResponseUtils.formatServiceReturn(
       false,

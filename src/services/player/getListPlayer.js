@@ -1,12 +1,12 @@
 const ResponseUtils = require('../../utils/response');
 const ResponseStatusCode = require('../../constant/responseStatusCode');
-const { mockResponseListPlayer } = require('../../mockResponse');
+const mockResponse = require('../../mockResponse/response.json');
 
 const getListPlayer = (ctx, params) => {
   return ResponseUtils.formatServiceReturn(
     true,
     ResponseStatusCode.SUCCESS,
-    mockResponseListPlayer,
+    mockResponse,
     'Success Get List Player'
   );
 };
